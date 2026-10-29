@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vichaar By Sanket - 4K Mobile Motivational Wallpaper Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Great+Vibes&family=Montserrat:wght@400;600;800&family=Playfair+Display:ital,wght@0,600;1,400&family=Rozha+One&family=Tiro+Devanagari+Hindi:ital@0;1&family=Yatra+One&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --panel-bg: rgba(30, 41, 59, 0.7);
+            --panel-border: rgba(255, 255, 255, 0.1);
+            --accent-glow: #38bdf8;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top center, #1e293b, #0f172a);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 1.25rem 2rem;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--panel-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        .main-layout {
+            display: flex;
+            flex: 1;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .preview-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .phone-frame {
+            width: 320px;
+            height: 568px;
+            border-radius: 36px;
+            border: 8px solid #334155;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(56, 189, 248, 0.15);
+            overflow: hidden;
+            position: relative;
+            background: #000;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .controls-section {
+            width: 420px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--panel-border);
+            border-radius: 20px;
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .controls-section::-webkit-scrollbar {
+            width: 6px;
+        }
+        .controls-section::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 3px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #38bdf8;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 0.4rem;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            background: #334155;
+            color: white;
+            border: 1px solid var(--panel-border);
+            padding: 0.75rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background: #475569;
+            border-color: #38bdf8;
+        }
+
+        .btn.active {
+            background: linear-gradient(135deg, #0284c7, #6366f1);
+            border-color: #38bdf8;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(51, 65, 85, 0.8);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            color: #38bdf8;
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 0.95rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(56, 189, 248, 0.2);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            width: 100%;
+            padding: 0.9rem;
+            font-size: 1rem;
+            border: none;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+        }
+
+        .btn-action:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        textarea, input, select {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--panel-border);
+            color: white;
+            padding: 0.75rem;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        textarea:focus, input:focus, select:focus {
+            border-color: #38bdf8;
+        }
+
+        .slider-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .slider-group input[type="range"] {
+            flex: 1;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .modal-img {
+            max-height: 80vh;
+            max-width: 90vw;
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(56, 189, 248, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            border-top: 1px solid var(--panel-border);
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        @media (max-width: 900px) {
+            .main-layout {
+                flex-direction: column;
+                align-items: center;
+            }
+            .controls-section {
+                width: 100%;
+                max-height: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <div class="logo">VICHAAR BY SANKET</div>
+            <div class="subtitle">4K Ultra-HD Mobile Wallpaper & Quote Studio</div>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        <div class="preview-section">
+            <div class="phone-frame">
+                <canvas id="wallpaperCanvas" width="2160" height="3840"></canvas>
+            </div>
+        </div>
+
+        <div class="controls-section">
+            <div>
+                <div class="section-title">1. Select Language</div>
+                <div class="btn-group">
+                    <button class="btn active" id="btnEn" onclick="setLanguage('en')">English</button>
+                    <button class="btn" id="btnHi" onclick="setLanguage('hi')">हिंदी (Hindi)</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="section-title">2. Wallpaper & Quote</div>
+                <div class="btn-group" style="margin-bottom: 0.75rem;">
+                    <button class="btn" onclick="nextQuote()">Random Quote</button>
+                    <button class="btn" onclick="fetchNewWallpaper()">New Image</button>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                    <label>Quote Text</label>
+                    <textarea id="quoteInput" rows="3" oninput="draw()"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Author</label>
+                    <input type="text" id="authorInput" oninput="draw()">
+                </div>
+            </div>
+
+            <div>
+                <div class="section-title">3. Typography & Style</div>
+
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                    <label>Font Style</label>
+                    <select id="fontSelect" onchange="draw()">
+                        <option value="'Playfair Display', serif">Classic Serif (English)</option>
+                        <option value="'Great Vibes', cursive">Elegance Script (English)</option>
+                        <option value="'Montserrat', sans-serif">Modern Clean (English/Hindi)</option>
+                        <option value="'Rozha One', serif">Rozha Bold (Hindi)</option>
+                        <option value="'Tiro Devanagari Hindi', serif">Tiro Traditional (Hindi)</option>
+                        <option value="'Yatra One', cursive">Yatra Classic (Hindi)</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                    <label>Text Position</label>
+                    <select id="positionSelect" onchange="draw()">
+                        <option value="center" selected>Center Lock Screen</option>
+                        <option value="top">Top Header</option>
+                        <option value="bottom">Bottom Footer</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                    <label>Font Size</label>
+                    <div class="slider-group">
+                        <input type="range" id="fontSizeSlider" min="40" max="140" value="80" oninput="draw()">
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                    <label>Dark Vignette Overlay</label>
+                    <div class="slider-group">
+                        <input type="range" id="overlaySlider" min="0" max="0.8" step="0.05" value="0.45" oninput="draw()">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Text Shadow Glow</label>
+                    <div class="slider-group">
+                        <input type="range" id="shadowSlider" min="0" max="50" value="25" oninput="draw()">
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-secondary" onclick="openFullscreenPreview()" style="margin-bottom: 0.5rem;">Preview Fullscreen</button>
+            <button class="btn btn-action" onclick="downloadWallpaper()">Export Ultra-HD 4K (2160x3840)</button>
+        </div>
+    </div>
+
+    <!-- Modal Fullscreen Preview -->
+    <div class="modal-overlay" id="previewModal" onclick="closeFullscreenPreview(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeFullscreenPreview()">&#10005;</button>
+            <img id="modalImage" class="modal-img" src="" alt="Fullscreen Preview">
+            <button class="btn btn-action" onclick="downloadWallpaper()" style="width: auto; padding: 0.8rem 2rem;">Download 4K Image</button>
+        </div>
+    </div>
+
+    <footer>
+        &copy; Designed by Sanket Sagar &bull; Vichaar By Sanket
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('wallpaperCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let currentLang = 'en';
+        let currentImg = new Image();
+        currentImg.crossOrigin = "anonymous";
+
+        const quotesEn = [
+            { quote: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+            { quote: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+            { quote: "Future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+            { quote: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
+            { quote: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" }
+        ];
+
+        const quotesHi = [
+            { quote: "उठो, जागो और तब तक मत रुको जब तक लक्ष्य की प्राप्ति न हो जाए।", author: "स्वामी विवेकानंद" },
+            { quote: "सफलता का कोई मंत्र नहीं है, यह तो सिर्फ कड़ी मेहनत का फल है।", author: "डॉ. ए.पी.जे. अब्दुल कलाम" },
+            { quote: "विश्वास वो शक्ति है जिससे उजड़ी हुई दुनिया में भी प्रकाश लाया जा सकता है।", author: "महात्मा गांधी" },
+            { quote: "संघर्ष जितना कठिन होगा, जीत उतनी ही शानदार होगी।", author: "स्वामी विवेकानंद" },
+            { quote: "सपनों को सच करने से पहले, सपने देखने पड़ते हैं।", author: "डॉ. ए.पी.जे. अब्दुल कलाम" }
+        ];
+
+        let quoteIndex = 0;
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+            document.getElementById('btnHi').classList.toggle('active', lang === 'hi');
+
+            const fontSelect = document.getElementById('fontSelect');
+            if (lang === 'hi') {
+                fontSelect.value = "'Rozha One', serif";
+            } else {
+                fontSelect.value = "'Playfair Display', serif";
+            }
+
+            quoteIndex = 0;
+            updateQuoteInput();
+        }
+
+        function updateQuoteInput() {
+            const list = currentLang === 'en' ? quotesEn : quotesHi;
+            document.getElementById('quoteInput').value = list[quoteIndex].quote;
+            document.getElementById('authorInput').value = list[quoteIndex].author;
+            draw();
+        }
+
+        function nextQuote() {
+            const list = currentLang === 'en' ? quotesEn : quotesHi;
+            quoteIndex = (quoteIndex + 1) % list.length;
+            updateQuoteInput();
+        }
+
+        function fetchNewWallpaper() {
+            const seed = Math.floor(Math.random() * 1000);
+            currentImg.src = `https://picsum.photos/2160/3840?random=${seed}`;
+        }
+
+        currentImg.onload = () => {
+            draw();
+        };
+
+        function getWrappedLines(text, maxWidth, font, fontSize) {
+            ctx.font = `600 ${fontSize}px ${font}`;
+            const words = text.split(' ');
+            const lines = [];
+            let currentLine = '';
+
+            for (let i = 0; i < words.length; i++) {
+                const word = words[i];
+                const testLine = currentLine ? currentLine + ' ' + word : word;
+                if (ctx.measureText(testLine).width <= maxWidth) {
+                    currentLine = testLine;
+                } else {
+                    if (currentLine) {
+                        lines.push(currentLine);
+                        currentLine = word;
+                    } else {
+                        let charLine = '';
+                        for (let j = 0; j < word.length; j++) {
+                            const char = word[j];
+                            if (ctx.measureText(charLine + char).width <= maxWidth) {
+                                charLine += char;
+                            } else {
+                                lines.push(charLine);
+                                charLine = char;
+                            }
+                        }
+                        currentLine = charLine;
+                    }
+                }
+            }
+            if (currentLine) lines.push(currentLine);
+            return lines;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (currentImg.complete && currentImg.naturalWidth !== 0) {
+                const hRatio = canvas.width / currentImg.width;
+                const vRatio = canvas.height / currentImg.height;
+                const ratio = Math.max(hRatio, vRatio);
+                const centerShift_x = (canvas.width - currentImg.width * ratio) / 2;
+                const centerShift_y = (canvas.height - currentImg.height * ratio) / 2;
+
+                ctx.drawImage(currentImg, 0, 0, currentImg.width, currentImg.height,
+                    centerShift_x, centerShift_y, currentImg.width * ratio, currentImg.height * ratio);
+            } else {
+                ctx.fillStyle = '#1e293b';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            const overlayOpacity = parseFloat(document.getElementById('overlaySlider').value);
+            if (overlayOpacity > 0) {
+                const gradient = ctx.createRadialGradient(
+                    canvas.width / 2, canvas.height / 2, 300,
+                    canvas.width / 2, canvas.height / 2, canvas.height / 1.2
+                );
+                gradient.addColorStop(0, `rgba(0, 0, 0, ${overlayOpacity * 0.5})`);
+                gradient.addColorStop(1, `rgba(0, 0, 0, ${overlayOpacity * 1.2})`);
+
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            const quote = document.getElementById('quoteInput').value;
+            const author = document.getElementById('authorInput').value;
+            const selectedFont = document.getElementById('fontSelect').value;
+            let fontSize = parseInt(document.getElementById('fontSizeSlider').value);
+            const shadowGlow = parseInt(document.getElementById('shadowSlider').value);
+            const position = document.getElementById('positionSelect').value;
+
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = '#FFFFFF';
+
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+            ctx.shadowBlur = shadowGlow;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 4;
+
+            const maxWidth = canvas.width * 0.78;
+            const maxAllowedHeight = canvas.height * 0.60;
+
+            let lines = getWrappedLines(quote, maxWidth, selectedFont, fontSize);
+            let lineHeight = fontSize * 1.35;
+            let totalHeight = (lines.length * lineHeight) + (author ? fontSize * 1.5 : 0);
+
+            while (totalHeight > maxAllowedHeight && fontSize > 36) {
+                fontSize -= 4;
+                lines = getWrappedLines(quote, maxWidth, selectedFont, fontSize);
+                lineHeight = fontSize * 1.35;
+                totalHeight = (lines.length * lineHeight) + (author ? fontSize * 1.5 : 0);
+            }
+
+            ctx.font = `600 ${fontSize}px ${selectedFont}`;
+
+            let startY = canvas.height / 2 - (totalHeight / 2) + (lineHeight / 2);
+            if (position === 'top') {
+                startY = canvas.height * 0.22 + (lineHeight / 2);
+            } else if (position === 'bottom') {
+                startY = canvas.height * 0.75 - totalHeight + (lineHeight / 2);
+            }
+
+            lines.forEach((line, index) => {
+                ctx.fillText(line, canvas.width / 2, startY + (index * lineHeight));
+            });
+
+            if (author) {
+                ctx.font = `400 ${Math.round(fontSize * 0.55)}px ${selectedFont}`;
+                ctx.fillStyle = '#E2E8F0';
+                ctx.fillText(`— ${author}`, canvas.width / 2, startY + (lines.length * lineHeight) + (fontSize * 0.4));
+            }
+
+            // Draw Capitalized Copyright Watermark at bottom
+            ctx.font = "400 36px 'Montserrat', sans-serif";
+            ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = "rgba(0, 0, 0, 0.8)";
+            ctx.fillText("© Designed by Sanket Sagar", canvas.width / 2, canvas.height - 120);
+
+            ctx.shadowColor = 'transparent';
+        }
+
+        function openFullscreenPreview() {
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+            document.getElementById('modalImage').src = dataUrl;
+            document.getElementById('previewModal').classList.add('active');
+        }
+
+        function closeFullscreenPreview(e) {
+            if (!e || e.target === document.getElementById('previewModal') || e.target.classList.contains('close-btn')) {
+                document.getElementById('previewModal').classList.remove('active');
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeFullscreenPreview();
+        });
+
+        function downloadWallpaper() {
+            const link = document.createElement('a');
+            link.download = `Vichaar-By-Sanket-4K-Wallpaper-${Date.now()}.jpg`;
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+        }
+
+        setLanguage('en');
+        fetchNewWallpaper();
+    </script>
+</body>
+</html>
